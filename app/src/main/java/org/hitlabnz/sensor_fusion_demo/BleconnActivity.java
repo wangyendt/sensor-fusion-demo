@@ -69,7 +69,7 @@ public class BleconnActivity extends FragmentActivity {
     public final static UUID UUID_WRITE = UUID.fromString("0000ffe9-0000-1000-8000-00805f9a34fb");
 
     //保存传感器的数据
-    float[] floats = new float[12];
+    public static float[] data = new float[12];
 
 
     @Override
@@ -337,17 +337,17 @@ public class BleconnActivity extends FragmentActivity {
 
             case 0x61:
                 //加速度数据
-                floats[3] = ((((short) value[3]) << 8) | ((short) value[2] & 0xff)) / 32768.0f * 16;   //x轴
-                floats[4] = ((((short) value[5]) << 8) | ((short) value[4] & 0xff)) / 32768.0f * 16;   //y轴
-                floats[5] = ((((short) value[7]) << 8) | ((short) value[6] & 0xff)) / 32768.0f * 16;   //z轴
+                data[3] = ((((short) value[3]) << 8) | ((short) value[2] & 0xff)) / 32768.0f * 16;   //x轴
+                data[4] = ((((short) value[5]) << 8) | ((short) value[4] & 0xff)) / 32768.0f * 16;   //y轴
+                data[5] = ((((short) value[7]) << 8) | ((short) value[6] & 0xff)) / 32768.0f * 16;   //z轴
                 //角速度数据
-                floats[6] = ((((short) value[9]) << 8) | ((short) value[8] & 0xff)) / 32768.0f * 2000;  //x轴
-                floats[7] = ((((short) value[11]) << 8) | ((short) value[10] & 0xff)) / 32768.0f * 2000;  //x轴
-                floats[8] = ((((short) value[13]) << 8) | ((short) value[12] & 0xff)) / 32768.0f * 2000;  //x轴
+                data[6] = ((((short) value[9]) << 8) | ((short) value[8] & 0xff)) / 32768.0f * 2000;  //x轴
+                data[7] = ((((short) value[11]) << 8) | ((short) value[10] & 0xff)) / 32768.0f * 2000;  //x轴
+                data[8] = ((((short) value[13]) << 8) | ((short) value[12] & 0xff)) / 32768.0f * 2000;  //x轴
                 //角度
-                floats[9] = ((((short) value[15]) << 8) | ((short) value[14] & 0xff)) / 32768.0f * 180;   //x轴
-                floats[10] = ((((short) value[17]) << 8) | ((short) value[16] & 0xff)) / 32768.0f * 180;   //y轴
-                floats[11] = ((((short) value[19]) << 8) | ((short) value[18] & 0xff)) / 32768.0f * 180;   //z轴
+                data[9] = ((((short) value[15]) << 8) | ((short) value[14] & 0xff)) / 32768.0f * 180;   //x轴
+                data[10] = ((((short) value[17]) << 8) | ((short) value[16] & 0xff)) / 32768.0f * 180;   //y轴
+                data[11] = ((((short) value[19]) << 8) | ((short) value[18] & 0xff)) / 32768.0f * 180;   //z轴
                 break;
             case 0x62:
 
@@ -360,9 +360,9 @@ public class BleconnActivity extends FragmentActivity {
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String str = "时间：" + formatter.format(curDate);
 
-        str += "\r\n加速度XYZ：" + String.format("%.3f", floats[3]) + "\t\t" + String.format("%.3f", floats[4]) + "\t\t" + String.format("%.3f", floats[5])
-                + "\r\n角速度速度XYZ：" + String.format("%.3f", floats[6]) + "\t\t" + String.format("%.3f", floats[6]) + "\t\t" + String.format("%.3f", floats[8])
-                + "\r\n角度XYZ：" + String.format("%.3f", floats[9]) + "\t\t" + String.format("%.3f", floats[10]) + "\t\t" + String.format("%.3f", floats[11]);
+        str += "\r\n加速度XYZ：" + String.format("%.3f", data[3]) + "\t\t" + String.format("%.3f", data[4]) + "\t\t" + String.format("%.3f", data[5])
+                + "\r\n角速度速度XYZ：" + String.format("%.3f", data[6]) + "\t\t" + String.format("%.3f", data[6]) + "\t\t" + String.format("%.3f", data[8])
+                + "\r\n角度XYZ：" + String.format("%.3f", data[9]) + "\t\t" + String.format("%.3f", data[10]) + "\t\t" + String.format("%.3f", data[11]);
 
 
         //把数据打印到首页

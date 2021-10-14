@@ -5,13 +5,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.util.Log;
 
-import org.hitlabnz.sensor_fusion_demo.representation.MatrixF4x4;
+import org.hitlabnz.sensor_fusion_demo.BleconnActivity;
 
-/**
- * Created by lezh1k on 1/5/18.
- */
-
-public class MadgwickProvider extends OrientationProvider {
+public class EarbudsProvider extends OrientationProvider {
 
     private float gain;
     private float sampleFreq;
@@ -20,14 +16,9 @@ public class MadgwickProvider extends OrientationProvider {
     private float acc[] = new float[4];
     private float gyr[] = new float[4];
 
-    /**
-     * Initialises a new OrientationProvider
-     *
-     * @param sensorManager The android sensor manager
-     */
-    public MadgwickProvider(SensorManager sensorManager,
-                            float gain,
-                            float sampleFreq) {
+    public EarbudsProvider(SensorManager sensorManager,
+                           float gain,
+                           float sampleFreq) {
         super(sensorManager);
         this.gain = gain;
         this.sampleFreq = sampleFreq;
@@ -37,6 +28,20 @@ public class MadgwickProvider extends OrientationProvider {
         qZ = 1.0f;
         sensorList.add(sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
         sensorList.add(sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE));
+    }
+
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        acc[0] = BleconnActivity.data[3];
+        acc[1] = BleconnActivity.data[4];
+        acc[2] = BleconnActivity.data[5];
+        gyr[0] = (float) (BleconnActivity.data[6] * Math.PI / 360);
+        gyr[1] = (float) (BleconnActivity.data[7] * Math.PI / 360);
+        gyr[2] = (float) (BleconnActivity.data[8] * Math.PI / 360);
+        Log.d("sensor_data", String.format("ax=%.3f,ay=%.3f,az=%.3f,gx=%.3f,gy=%.3f,gz=%.3f", acc[0], acc[1], acc[2], gyr[0], gyr[1], gyr[2]));
+        MadgwickAHRSupdateIMU(gyr[0], gyr[1], gyr[2], acc[0], acc[1], acc[2]);
+        currentOrientationQuaternion.setXYZW(qX, qY, qZ, -qW); //-q for cube rotation inversion
     }
 
     private float invSqrt(float x) {
@@ -109,31 +114,5 @@ public class MadgwickProvider extends OrientationProvider {
         qX *= recipNorm;
         qY *= recipNorm;
         qZ *= recipNorm;
-    }
-
-    boolean init0 = false;
-    boolean init1 = false;
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        switch (event.sensor.getType()) {
-            case Sensor.TYPE_ACCELEROMETER:
-                System.arraycopy(event.values, 0, acc, 0, 3);
-                init0 = true;
-                break;
-            case Sensor.TYPE_GYROSCOPE:
-                System.arraycopy(event.values, 0, gyr, 0, 3);
-                init1 = true;
-                break;
-            default:
-                return;
-        }
-
-        if (init0 && init1) {
-            Log.d("sensor_data", String.format("ax=%.3f,ay=%.3f,az=%.3f,gx=%.3f,gy=%.3f,gz=%.3f", acc[0], acc[1], acc[2], gyr[0], gyr[1], gyr[2]));
-            MadgwickAHRSupdateIMU(gyr[0], gyr[1], gyr[2], acc[0], acc[1], acc[2]);
-            currentOrientationQuaternion.setXYZW(qX, qY, qZ, -qW); //-q for cube rotation inversion
-            init0 = init1 = false;
-        }
     }
 }

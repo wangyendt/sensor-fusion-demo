@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -14,14 +15,14 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
 /**
  * The main activity where the user can select which sensor-fusion he wants to try out
- * 
+ *
  * @author Alexander Pacha
- * 
  */
 public class SensorSelectionActivity extends FragmentActivity {
 
@@ -54,27 +55,27 @@ public class SensorSelectionActivity extends FragmentActivity {
 
         // Check if device has a hardware gyroscope
         SensorChecker checker = new HardwareChecker((SensorManager) getSystemService(SENSOR_SERVICE));
-        if(!checker.IsGyroscopeAvailable()) {
-        	// If a gyroscope is unavailable, display a warning.
-        	displayHardwareMissingWarning();
+        if (!checker.IsGyroscopeAvailable()) {
+            // If a gyroscope is unavailable, display a warning.
+            displayHardwareMissingWarning();
         }
     }
 
     private void displayHardwareMissingWarning() {
-    	AlertDialog ad = new AlertDialog.Builder(this).create();  
-    	ad.setCancelable(false); // This blocks the 'BACK' button    
-    	ad.setTitle(getResources().getString(R.string.gyroscope_missing)); 
-    	ad.setMessage(getResources().getString(R.string.gyroscope_missing_message));
-    	ad.setButton(DialogInterface.BUTTON_NEUTRAL, getResources().getString(R.string.OK), new DialogInterface.OnClickListener() {  
-    	    @Override  
-    	    public void onClick(DialogInterface dialog, int which) {  
-    	        dialog.dismiss();                      
-    	    }  
-    	});  
-    	ad.show();  
-	}
+        AlertDialog ad = new AlertDialog.Builder(this).create();
+        ad.setCancelable(false); // This blocks the 'BACK' button
+        ad.setTitle(getResources().getString(R.string.gyroscope_missing));
+        ad.setMessage(getResources().getString(R.string.gyroscope_missing_message));
+        ad.setButton(DialogInterface.BUTTON_NEUTRAL, getResources().getString(R.string.OK), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        ad.show();
+    }
 
-	@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.sensor_selection, menu);
@@ -85,10 +86,10 @@ public class SensorSelectionActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-        case R.id.action_about:
-            Intent intent = new Intent(this, AboutActivity.class);
-            startActivity(intent);
-            return true;
+            case R.id.action_about:
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
         }
         return false;
     }
@@ -101,7 +102,7 @@ public class SensorSelectionActivity extends FragmentActivity {
 
         /**
          * Initialises a new sectionPagerAdapter
-         * 
+         *
          * @param fm the fragment Manager
          */
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -123,7 +124,7 @@ public class SensorSelectionActivity extends FragmentActivity {
         @Override
         public int getCount() {
             // Show 6 total pages.
-            return 7;
+            return 8;
         }
 
         @Override
@@ -131,18 +132,20 @@ public class SensorSelectionActivity extends FragmentActivity {
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
+                    return getString(R.string.title_section0).toUpperCase(l);
                 case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
+                    return getString(R.string.title_section1).toUpperCase(l);
                 case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
+                    return getString(R.string.title_section2).toUpperCase(l);
                 case 3:
-                    return "Madgwick".toUpperCase(l);
+                    return getString(R.string.title_section3).toUpperCase(l);
                 case 4:
-                    return getString(R.string.title_section5).toUpperCase(l);
+                    return "Madgwick".toUpperCase(l);
                 case 5:
-                    return getString(R.string.title_section6).toUpperCase(l);
+                    return getString(R.string.title_section5).toUpperCase(l);
                 case 6:
+                    return getString(R.string.title_section6).toUpperCase(l);
+                case 7:
                     return getString(R.string.title_section4).toUpperCase(l);
             }
             return null;
