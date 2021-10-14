@@ -7,6 +7,11 @@ import android.util.Log;
 
 import org.hitlabnz.sensor_fusion_demo.BleconnActivity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class EarbudsProvider extends OrientationProvider {
 
     private float gain;
@@ -31,17 +36,32 @@ public class EarbudsProvider extends OrientationProvider {
     }
 
 
+    static long time_ = 0;
+
     @Override
     public void onSensorChanged(SensorEvent event) {
-        acc[0] = BleconnActivity.data[3];
-        acc[1] = BleconnActivity.data[4];
-        acc[2] = BleconnActivity.data[5];
-        gyr[0] = (float) (BleconnActivity.data[6] * Math.PI / 360);
-        gyr[1] = (float) (BleconnActivity.data[7] * Math.PI / 360);
-        gyr[2] = (float) (BleconnActivity.data[8] * Math.PI / 360);
-        Log.d("sensor_data", String.format("ax=%.3f,ay=%.3f,az=%.3f,gx=%.3f,gy=%.3f,gz=%.3f", acc[0], acc[1], acc[2], gyr[0], gyr[1], gyr[2]));
-        MadgwickAHRSupdateIMU(gyr[0], gyr[1], gyr[2], acc[0], acc[1], acc[2]);
-        currentOrientationQuaternion.setXYZW(qX, qY, qZ, -qW); //-q for cube rotation inversion
+        /*获取当前系统时间*/
+        long time = System.currentTimeMillis();
+        if (time - time_ > 10) {
+            time_ = time;
+
+            /*时间戳转换成IOS8601字符串*/
+            Date date = new Date(time);
+            TimeZone tz = TimeZone.getTimeZone("Asia/Beijing");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            df.setTimeZone(tz);
+            String nowAsIOS = df.format(date);
+
+            acc[0] = BleconnActivity.data[3];
+            acc[1] = BleconnActivity.data[4];
+            acc[2] = BleconnActivity.data[5];
+            gyr[0] = (float) (BleconnActivity.data[6] * Math.PI / 360);
+            gyr[1] = (float) (BleconnActivity.data[7] * Math.PI / 360);
+            gyr[2] = (float) (BleconnActivity.data[8] * Math.PI / 360);
+            Log.d("sensor_data", nowAsIOS + String.format(":ax=%.3f,ay=%.3f,az=%.3f,gx=%.3f,gy=%.3f,gz=%.3f", acc[0], acc[1], acc[2], gyr[0], gyr[1], gyr[2]));
+            MadgwickAHRSupdateIMU(gyr[0], gyr[1], gyr[2], acc[0], acc[1], acc[2]);
+            currentOrientationQuaternion.setXYZW(qX, qY, qZ, -qW); //-q for cube rotation inversion
+        }
     }
 
     private float invSqrt(float x) {
