@@ -140,13 +140,17 @@ public class SensorSelectionActivity extends FragmentActivity {
                 case 3:
                     return getString(R.string.title_section3).toUpperCase(l);
                 case 4:
-                    return "Madgwick".toUpperCase(l);
+                    return getString(R.string.title_section4).toUpperCase(l);
                 case 5:
                     return getString(R.string.title_section5).toUpperCase(l);
                 case 6:
-                    return getString(R.string.title_section6).toUpperCase(l);
+                    return "Madgwick".toUpperCase(l);
                 case 7:
-                    return getString(R.string.title_section4).toUpperCase(l);
+                    return getString(R.string.title_section7).toUpperCase(l);
+                case 8:
+                    return getString(R.string.title_section8).toUpperCase(l);
+                case 9:
+                    return getString(R.string.title_section6).toUpperCase(l);
             }
             return null;
         }

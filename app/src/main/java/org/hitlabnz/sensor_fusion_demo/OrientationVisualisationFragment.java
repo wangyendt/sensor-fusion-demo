@@ -2,7 +2,9 @@ package org.hitlabnz.sensor_fusion_demo;
 
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.AccelerometerCompassProvider;
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.CalibratedGyroscopeProvider;
-import org.hitlabnz.sensor_fusion_demo.orientationProvider.EarbudsProvider;
+import org.hitlabnz.sensor_fusion_demo.orientationProvider.EarbudsCaliProvider;
+import org.hitlabnz.sensor_fusion_demo.orientationProvider.EarbudsCaliOnce;
+import org.hitlabnz.sensor_fusion_demo.orientationProvider.EarbudsRawProvider;
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.GravityCompassProvider;
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.ImprovedOrientationSensor1Provider;
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.ImprovedOrientationSensor2Provider;
@@ -67,34 +69,42 @@ public class OrientationVisualisationFragment extends Fragment {
         // Initialise the orientationProvider
         switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
             case 1:
-                currentOrientationProvider = new EarbudsProvider((SensorManager) getActivity()
+                currentOrientationProvider = new EarbudsRawProvider((SensorManager) getActivity()
                         .getSystemService(SensorSelectionActivity.SENSOR_SERVICE), 0.033f, 50.0f);
                 break;
             case 2:
+                currentOrientationProvider = new EarbudsCaliProvider((SensorManager) getActivity()
+                        .getSystemService(SensorSelectionActivity.SENSOR_SERVICE), 0.033f, 50.0f);
+                break;
+            case 3:
+                currentOrientationProvider = new EarbudsCaliOnce((SensorManager) getActivity()
+                        .getSystemService(SensorSelectionActivity.SENSOR_SERVICE), 0.033f, 50.0f);
+                break;
+            case 4:
                 currentOrientationProvider = new ImprovedOrientationSensor1Provider((SensorManager) getActivity()
                         .getSystemService(SensorSelectionActivity.SENSOR_SERVICE));
                 break;
-            case 3:
+            case 5:
                 currentOrientationProvider = new ImprovedOrientationSensor2Provider((SensorManager) getActivity()
                         .getSystemService(SensorSelectionActivity.SENSOR_SERVICE));
                 break;
-            case 4:
+            case 6:
                 currentOrientationProvider = new RotationVectorProvider((SensorManager) getActivity().getSystemService(
                         SensorSelectionActivity.SENSOR_SERVICE));
                 break;
-            case 5:
+            case 7:
                 currentOrientationProvider = new MadgwickProvider((SensorManager) getActivity()
                         .getSystemService(SensorSelectionActivity.SENSOR_SERVICE), 0.07f, 50.0f);
                 break;
-            case 6:
+            case 8:
                 currentOrientationProvider = new GravityCompassProvider((SensorManager) getActivity().getSystemService(
                         SensorSelectionActivity.SENSOR_SERVICE));
                 break;
-            case 7:
+            case 9:
                 currentOrientationProvider = new AccelerometerCompassProvider((SensorManager) getActivity()
                         .getSystemService(SensorSelectionActivity.SENSOR_SERVICE));
                 break;
-            case 8:
+            case 10:
                 currentOrientationProvider = new CalibratedGyroscopeProvider((SensorManager) getActivity()
                         .getSystemService(SensorSelectionActivity.SENSOR_SERVICE));
                 break;

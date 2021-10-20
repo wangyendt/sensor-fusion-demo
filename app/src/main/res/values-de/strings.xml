@@ -3,13 +3,15 @@
 
     <string name="app_name">Earbuds AHRS demo</string>
     <string name="action_about">Über</string>
-    <string name="title_section0">Ear Buds</string>
-    <string name="title_section1">Improved Orientation Sensor 1</string>
-    <string name="title_section2">Improved Orientation Sensor 2</string>
-    <string name="title_section3">Android Rotation Vector</string>
-    <string name="title_section4">Kalibriertes Gyroskop</string>
-    <string name="title_section5">Gravitation und Kompass</string>
-    <string name="title_section6">Akzelerometer und Kompass</string>
+    <string name="title_section0">Ear Buds Raw</string>
+    <string name="title_section1">Ear Buds Cali</string>
+    <string name="title_section2">Ear Buds CaliOnce</string>
+    <string name="title_section3">Improved Orientation Sensor 1</string>
+    <string name="title_section4">Improved Orientation Sensor 2</string>
+    <string name="title_section5">Android Rotation Vector</string>
+    <string name="title_section6">Calibrated Gyroscope</string>
+    <string name="title_section7">Gravity and Compass</string>
+    <string name="title_section8">Accelerometer and Compass</string>
     <string name="title_activity_sensor_selection">Sensorfusions Demo</string>
     <string name="title_activity_about">Über</string>
     <string name="gyroscope_missing">Fehlendes Gyroskop</string>
