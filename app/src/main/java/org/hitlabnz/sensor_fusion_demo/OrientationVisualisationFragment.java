@@ -68,7 +68,7 @@ public class OrientationVisualisationFragment extends Fragment {
         switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
             case 1:
                 currentOrientationProvider = new EarbudsProvider((SensorManager) getActivity()
-                        .getSystemService(SensorSelectionActivity.SENSOR_SERVICE), 0.07f, 50.0f);
+                        .getSystemService(SensorSelectionActivity.SENSOR_SERVICE), 0.033f, 50.0f);
                 break;
             case 2:
                 currentOrientationProvider = new ImprovedOrientationSensor1Provider((SensorManager) getActivity()
