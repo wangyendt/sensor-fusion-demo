@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,11 +27,17 @@ import org.hitlabnz.sensor_fusion_demo.permission.PermissionListener;
 import org.hitlabnz.sensor_fusion_demo.permission.PermissionRequest;
 import org.hitlabnz.sensor_fusion_demo.pojo.BLEDevice;
 import org.hitlabnz.sensor_fusion_demo.utils.BLEUtils;
+import org.hitlabnz.sensor_fusion_demo.utils.LogUtils;
 import org.hitlabnz.sensor_fusion_demo.utils.ToastUtils;
 import org.hitlabnz.sensor_fusion_demo.utils.TypeConversion;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -55,7 +63,9 @@ public class BleconnActivity extends FragmentActivity {
     //动态申请权限
     private String[] requestPermissionArray = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
     /**
@@ -197,6 +207,32 @@ public class BleconnActivity extends FragmentActivity {
 
         @Override
         public void onClick(View view) {
+
+//            if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+//                Log.d("wytest", "shit");
+//                ShowToast("sd卡不可用");
+//                return;
+//            }
+//            Log.d("wytest", "/sdcard/healthlab/info.txt");
+//            File file = new File(Environment.getExternalStorageDirectory() + "/healthlab/info.txt");
+//            if (!file.exists()) {
+//                file.mkdirs();
+//            }
+//            try {
+//                Log.d("wytest", "0");
+//                FileOutputStream fos = new FileOutputStream(file);
+//                Log.d("wytest", "0.5");
+//                String info = "username" + "##" + "password";
+//                Log.d("wytest", "1");
+//                fos.write(info.getBytes());
+//                Log.d("wytest", "2");
+//                fos.close();
+//                Log.d("wytest", "success");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Log.d("wytest", "fail");
+//                return;
+//            }
 
             if (bleUtils == null) {
                 Log.d(TAG, "searchBtDevice()-->bleUtils == null");

@@ -6,6 +6,7 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import org.hitlabnz.sensor_fusion_demo.BleconnActivity;
+import org.hitlabnz.sensor_fusion_demo.utils.LogUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,6 +25,8 @@ public class EarbudsRawProvider extends OrientationProvider {
     private float acc[] = new float[4];
     private float gyr[] = new float[4];
 
+    private LogUtils logger;
+
     public EarbudsRawProvider(SensorManager sensorManager,
                               float gain,
                               float sampleFreq) {
@@ -37,6 +40,7 @@ public class EarbudsRawProvider extends OrientationProvider {
         idx = 0;
         sensorList.add(sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
         sensorList.add(sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE));
+        logger = new LogUtils("imu");
     }
 
 
@@ -52,9 +56,25 @@ public class EarbudsRawProvider extends OrientationProvider {
             /*时间戳转换成IOS8601字符串*/
             Date date = new Date(time);
             TimeZone tz = TimeZone.getTimeZone("Asia/Beijing");
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss.SSS,");
             df.setTimeZone(tz);
             String nowAsIOS = df.format(date);
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(nowAsIOS);
+            for (int i = 3; i < 12; i++) {
+                if (i >= 6 && i <= 8) {
+                    sb.append(BleconnActivity.data[i] * Math.PI / 180);
+                }else {
+                    sb.append(BleconnActivity.data[i]);
+                }
+                if (i < 11) {
+                    sb.append(",");
+                }
+            }
+            sb.append("\r\n");
+            logger.writeBytes(sb.toString());
+            logger.save();
 
             acc[0] = BleconnActivity.data[3];
             acc[1] = BleconnActivity.data[4];
