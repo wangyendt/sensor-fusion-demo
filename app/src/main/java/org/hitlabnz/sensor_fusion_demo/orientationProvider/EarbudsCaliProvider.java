@@ -71,7 +71,7 @@ public class EarbudsCaliProvider extends OrientationProvider {
             gyr[0] = (float) (BleconnActivity.data[6] * Math.PI / 180);
             gyr[1] = (float) (BleconnActivity.data[7] * Math.PI / 180);
             gyr[2] = (float) (BleconnActivity.data[8] * Math.PI / 180);
-            Log.d("sensor_data", nowAsIOS + String.format(":ax=%.3f,ay=%.3f,az=%.3f,gx=%.3f,gy=%.3f,gz=%.3f", acc[0], acc[1], acc[2], gyr[0], gyr[1], gyr[2]));
+//            Log.d("sensor_data", nowAsIOS + String.format(":ax=%.3f,ay=%.3f,az=%.3f,gx=%.3f,gy=%.3f,gz=%.3f", acc[0], acc[1], acc[2], gyr[0], gyr[1], gyr[2]));
             MadgwickAHRSupdateIMU(gyr[0], gyr[1], gyr[2], acc[0], acc[1], acc[2]);
 //            currentOrientationQuaternion.setXYZW(qX, qY, qZ, -qW); //-q for cube rotation inversion
             currentOrientationQuaternion.setXYZW(-qZ_, -qX_, -qY_, -qW_); //-q for cube rotation inversion

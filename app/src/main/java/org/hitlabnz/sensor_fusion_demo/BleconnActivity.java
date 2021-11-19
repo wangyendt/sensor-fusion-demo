@@ -35,11 +35,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 
 public class BleconnActivity extends FragmentActivity {
@@ -369,11 +371,13 @@ public class BleconnActivity extends FragmentActivity {
         if (value[0] != 0x55) {
             return; //开头不是0x55的数据删除
         }
+
         switch (value[1]) {
 
             case 0x61:
                 //加速度数据
                 data[3] = ((((short) value[3]) << 8) | ((short) value[2] & 0xff)) / 32768.0f * 16;   //x轴
+//                Log.d("shit", data[3] + "," + value[2] + "," + value[3] + "," + (short) value[2] + "," + (short) value[3] + "," + ((short) value[3] << 8) + "," + ((short) value[2] & 0xff));
                 data[4] = ((((short) value[5]) << 8) | ((short) value[4] & 0xff)) / 32768.0f * 16;   //y轴
                 data[5] = ((((short) value[7]) << 8) | ((short) value[6] & 0xff)) / 32768.0f * 16;   //z轴
                 //角速度数据
@@ -384,6 +388,16 @@ public class BleconnActivity extends FragmentActivity {
                 data[9] = ((((short) value[15]) << 8) | ((short) value[14] & 0xff)) / 32768.0f * 180;   //x轴
                 data[10] = ((((short) value[17]) << 8) | ((short) value[16] & 0xff)) / 32768.0f * 180;   //y轴
                 data[11] = ((((short) value[19]) << 8) | ((short) value[18] & 0xff)) / 32768.0f * 180;   //z轴
+
+//                long time = System.currentTimeMillis();
+//                Date date = new Date(time);
+//                TimeZone tz = TimeZone.getTimeZone("Asia/Beijing");
+//                DateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss.SSS,");
+//                df.setTimeZone(tz);
+//                String nowAsIOS = df.format(date);
+                Log.d("raw_data", String.format("%f,%f,%f,%f,%f,%f", data[3], data[4], data[5], data[6], data[7], data[8]));
+//                Log.d("sensor_data2", nowAsIOS + String.format(":ax=%.3f,ay=%.3f,az=%.3f,gx=%.3f,gy=%.3f,gz=%.3f", data[3], data[4], data[5], data[6], data[7], data[8]));
+
                 break;
             case 0x62:
 
